@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    volumes:
+      - ./src:/app/src  # Sincroniza a pasta src do host com a pasta src no contêiner
+    working_dir: /app/src
+    command: poetry run python -m api.server  # Comando para rodar a aplicação FastAPI
+    ports:
+      - "8000:8000"  # Mapeia a porta 8000 do contêiner para a porta 8000 do host
+    environment:
+      - POETRY_VIRTUALENVS_CREATE=false  # Para evitar a criação de venv dentro do contêiner
+      - PYTHONPATH=/app  # Alterar para incluir o diretório /app
+    networks:
+      - app_network
+
+networks:
+  app_network:
+    driver: bridge
