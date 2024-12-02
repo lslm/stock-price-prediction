@@ -30,7 +30,7 @@ class MakeModel():
         y_pred = y_pred[non_zero_indices]
         return np.mean(np.abs((y_true - y_pred) / y_true)) * 100
 
-    def make_model(self, lookback: int, hidden_size: int, epochs: int):
+    def make_model(self, ticker: str, lookback: int, hidden_size: int, epochs: int):
         data = self.__dataset
         future_steps = [1]  # Only predict the next step
         split_ratio = 0.8
@@ -128,7 +128,7 @@ class MakeModel():
         BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
         MODEL_DIR = os.path.join(BASE_DIR, "model")
         os.makedirs(MODEL_DIR, exist_ok=True)
-        file_path = os.path.join(MODEL_DIR, "model_and_scaler.joblib")
+        file_path = os.path.join(MODEL_DIR, f"{ticker}.joblib")
         joblib.dump(bundle, file_path)
 
         response = ResponseTrain(

@@ -15,20 +15,20 @@ class MakePrediction:
     def __init__(self, ticker: str, days: int):
         self.__days_to_predict = days  # Quantos dias você deseja prever
         self.__dataset_to_predict = self.__get_dataset_by_ticker(ticker)
-        self.__bundle_model = self.__load_bundle_model_from_pkl()
+        self.__bundle_model = self.__load_bundle_model_from_pkl(ticker=ticker)
 
     def __get_dataset_by_ticker(self, ticker: str) -> pd.DataFrame:
         start_date = (date.today() - relativedelta(years=4))  # 2 anos atrás
         dataset = get_dataset_by_ticker(ticker, start_date, date.today())
         return dataset
 
-    def __load_bundle_model_from_pkl(self):
+    def __load_bundle_model_from_pkl(self, ticker: str):
         BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
         MODEL_DIR = os.path.join(BASE_DIR, "model")
-        if not os.path.exists(f"{MODEL_DIR}/model_and_scaler.joblib"):
+        if not os.path.exists(f"{MODEL_DIR}/{ticker}.joblib"):
             raise Exception("Não foi possível carregar o modelo, verifique se ele foi gerado!")
-        
-        file_path = os.path.join(MODEL_DIR, "model_and_scaler.joblib")
+
+        file_path = os.path.join(MODEL_DIR, f"{ticker}.joblib")
         bundle = joblib.load(file_path)
         return bundle
 

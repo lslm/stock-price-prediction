@@ -14,8 +14,9 @@ class TrainModel():
             ResponseTrain: Métricas do modelo treinado
         """
         make_model_instance = MakeModel(self.__request.ticker, self.__request.start_date, self.__request.end_date)
-        ress: RequestTrain = make_model_instance.make_model(lookback=self.__request.lookback, 
-                                                            # future_steps=self.__request.future_steps, 
-                                                            hidden_size=self.__request.hidden_size, 
+        ress: RequestTrain = make_model_instance.make_model(ticker=self.__request.ticker,
+                                                            lookback=self.__request.lookback,
+                                                            # future_steps=self.__request.future_steps,
+                                                            hidden_size=self.__request.hidden_size,
                                                             epochs=self.__request.epoch)
-        return ress 
+        return ress
