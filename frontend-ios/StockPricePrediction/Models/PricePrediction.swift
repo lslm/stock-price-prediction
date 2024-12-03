@@ -26,6 +26,6 @@ struct MockData {
         .init(id: 6, price: 124),
         .init(id: 7, price: 100),
         .init(id: 8, price: 115),
-        .init(id: 9, price: 100),
+        .init(id: 9, price: 95),
     ]
 }

@@ -13,13 +13,19 @@ struct PricePredictionChartView: View {
     
     var body: some View {
         Chart(pricePredictions) {
-            AreaMark(x: .value("Day", $0.id), y: .value("Price", $0.price))
+            AreaMark(x: .value("Day", $0.getDate()), y: .value("Price", $0.price))
         }
-        .chartYScale(domain: [getAveragePrice() - getLowestPrice().price, getAveragePrice() + getHighestPrice().price])
-        .chartXAxis {
+        .chartYScale(domain: [
+            getAveragePrice() - getAveragePrice()*0.1,
+            getAveragePrice() + getAveragePrice()*0.1
+        ])
+        .chartXAxis() {
             AxisMarks(values: .automatic(desiredCount: pricePredictions.count))
         }
-        .frame(height: 200)
+        .chartYAxis(.hidden)
+        .chartXAxis(.hidden)
+        .frame(height: 150)
+        .foregroundStyle(getForegroundStyle().gradient)
     }
     
     func getLowestPrice() -> PricePrediction {
@@ -32,6 +38,17 @@ struct PricePredictionChartView: View {
     
     func getAveragePrice() -> Double {
         pricePredictions.reduce(0) { $0 + $1.price } / Double(pricePredictions.count)
+    }
+    
+    func getForegroundStyle() -> Color {
+        let firstPrice = pricePredictions.first!.price
+        let lastPrice = pricePredictions.last!.price
+        
+        if firstPrice > lastPrice {
+            return Color.red
+        } else {
+            return Color.green
+        }
     }
 }
 

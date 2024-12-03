@@ -17,9 +17,10 @@ class DetailViewModel: ObservableObject {
             DispatchQueue.main.async {
                 switch result {
                 case .success(let pricePredictions):
-                    print(pricePredictions)
-                    self.pricePredictions = pricePredictions
-                    self.screenState = .loaded
+                    withAnimation {
+                        self.pricePredictions = pricePredictions
+                        self.screenState = .loaded
+                    }
                     
                 case .failure(let error):
                     self.nextPrice = "Error: \(error)"

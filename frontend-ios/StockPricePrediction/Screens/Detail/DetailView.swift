@@ -12,7 +12,7 @@ struct DetailView: View {
     @StateObject var detailViewModel: DetailViewModel = .init()
     
     var body: some View {
-        ScrollView {
+        VStack {
             Image(company.ticker.lowercased())
                 .resizable()
                 .scaledToFit()
@@ -28,15 +28,33 @@ struct DetailView: View {
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
             
+            
             if (detailViewModel.screenState == .loaded && !detailViewModel.pricePredictions.isEmpty) {
-                Text("\(detailViewModel.pricePredictions[0].price.formatted(.currency(code: "USD")))")
+                Text("Previsão de fechamento para amanhã")
+                    .foregroundStyle(.secondary)
+                    .padding(.top)
+                
+                Text(detailViewModel.pricePredictions[0].price.formatted(.currency(code: "USD")))
                     .font(.largeTitle)
                     .fontWeight(.medium)
-                    .padding()
-            
+                    .padding(.top, 1)
             
                 PricePredictionChartView(pricePredictions: detailViewModel.pricePredictions)
-                    .padding()
+                    
+            }
+            
+            List {
+                Section {
+                    ForEach(detailViewModel.pricePredictions) { prediction in
+                        HStack {
+                            Text(prediction.getDate().formatted(date: .abbreviated, time: .omitted))
+                            Spacer()
+                            Text("\(prediction.price.formatted(.currency(code: "USD")))")
+                        }
+                    }
+                } header: {
+                    Text("Previsão para os próximos 15 duas")
+                }
             }
         }
         .onAppear() {
