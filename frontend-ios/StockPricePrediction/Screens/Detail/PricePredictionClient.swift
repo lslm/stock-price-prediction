@@ -1,7 +1,7 @@
 import Foundation
 
 class PricePredictionClient {
-    private let baseURL = "https://ebef-2804-7f0-9142-8ea8-e195-720e-d0e1-2a39.ngrok-free.app"
+    private let baseURL = "http://localhost:8000"
     
     func predictPrice(for ticker: String) async -> Result<[PricePrediction], APIError> {
         let urlString = "\(baseURL)/api/predict"

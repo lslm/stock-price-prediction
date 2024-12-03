@@ -53,7 +53,7 @@ struct DetailView: View {
                         }
                     }
                 } header: {
-                    Text("Previsão para os próximos 15 duas")
+                    Text("Previsão para os próximos 15 dias")
                 }
             }
         }
